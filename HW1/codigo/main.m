@@ -12,11 +12,13 @@ y = dataset(:,15);
 
 m = length(y);
 
+x_size = size(X,2);
+
 %%Ejercicio 1 %%
 %% Calculo de la regresion univariable tomando el conjunto de datos como test
 %% Calculamos regresion para cada columna
 
-for i = 1:m
+for i = 1:x_size
 
   %guardamos en una variable temporal la columna correspondiente a la iteracion  
   X_temp = X(:,i);
