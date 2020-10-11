@@ -32,6 +32,10 @@ for i = 1:x_size
   pre = X_temp * theta;
 
   error = absError(m, pre, y);
-  error_list(:,i) = error;
+  %guardamos el numero de la columna con su error correspondiente
+  error_list(i,:) = [i,error];
 
 endfor
+
+%ordena la matriz en base a la segunda columna con los errores
+sortrows(error_list, 2)
