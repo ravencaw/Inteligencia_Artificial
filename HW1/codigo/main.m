@@ -35,3 +35,10 @@ for i = 1:x_size
   error_list(:,i) = error;
 
 endfor
+
+error_list
+
+%Ordenamos el vector de errores en orden ascendente
+
+sorted_error_list=sort(error_list);
+sorted_error_list
