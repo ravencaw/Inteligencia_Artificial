@@ -16,19 +16,20 @@ m = length(y);
 %% Calculo de la regresion univariable tomando el conjunto de datos como test
 %% Calculamos regresion para cada columna
 
-% Primer atributo densidad de pesaje bajo agua
-X_densidad = X(:,1);
+for i = 1:m
 
-%añadimos columna de 1
-X_densidad = [ones(m,1), X_densidad];
+  %guardamos en una variable temporal la columna correspondiente a la iteracion  
+  X_temp = X(:,i);
+  %añadimos una columna de unos
+  X_temp = [ones(m,1), X_temp];
+  
+  %calculo de theta
+  theta = normalEqn(X_temp, y);
+  
+  %calulo del error para esa columna
+  pre = X_temp * theta;
 
-theta = normalEqn(X_densidad, y);
+  error = absError(m, pre, y);
+  error_list(:,i) = error;
 
-%Calculamos el error_densidad
-
-pre = X_densidad * theta;
-
-error_densidad = absError(m, pre, y)
-
-
-
+endfor
