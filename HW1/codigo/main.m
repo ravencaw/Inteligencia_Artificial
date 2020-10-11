@@ -22,7 +22,7 @@ for i = 1:x_size
 
   %guardamos en una variable temporal la columna correspondiente a la iteracion  
   X_temp = X(:,i);
-  %añadimos una columna de unos
+  %aï¿½adimos una columna de unos
   X_temp = [ones(m,1), X_temp];
   
   %calculo de theta
