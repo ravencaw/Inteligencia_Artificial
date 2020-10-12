@@ -37,5 +37,5 @@ for i = 1:x_size
 
 endfor
 
-%ordena la matriz en base a la segunda columna con los errores
-sortrows(error_list, 2)
+%ordena la matriz en base a la segunda columna con los errores y guardamos los 5 mejores
+best5 = sortrows(error_list, 2)(1:5,:);
