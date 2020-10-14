@@ -86,25 +86,27 @@ fprintf "\nAPARTADO E\n"
 %asignamos el porcentaje de entrenamiento el resto sera test
 percent = 0.7;
 
+%realizamos la separacion en train y test
+[X_train,y_train, X_test, y_test] = holdout(X_temp, y, m, percent);
+
 fprintf "Thetas calculadas en Holdout 70/30\n"
-for i = 1:x_size
+for i = 1:X_train
   
   %Limpiamos la variable temporal en cada iteracion
   clear X_temp;
   %guardamos en una variable temporal la columna correspondiente a la iteracion  
-  X_temp = X(:,i);
-  %realizamos la separacion en train y test
-  [X_train,y_train, X_test, y_test] = holdout(X_temp, y, m, percent);
+  X_temp = X_train(:,i);
+  
   
   m_train = length(y_train);
   m_test = length(y_test);
   
   %anadimos una columna de unos
-  X_train = [ones(m_train,1), X_train];
+  X_train_temp = [ones(m_train,1), X_train];
   X_test = [ones(m_test,1), X_test];
   
   %calculo de theta
-  theta = normalEqn(X_train, y_train)
+  theta = normalEqn(X_train_temp, y_train)
   
   %calulo del error para esa columna
   pre = X_test * theta;
