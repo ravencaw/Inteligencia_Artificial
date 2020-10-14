@@ -161,13 +161,18 @@ error = absError(m_test, pre, y_test)
 %%-------------------------------------------------------
 
 %%Descenso con todo el conjunto de datos
-
+%%Normalizamos los datos
+X = featureNormalize(X);
+y = featureNormalize(y);
 %realizamos la separacion en train y test
 [X_train,y_train, X_test, y_test] = holdout(X, y, m, percent);
 
+%añadimos una columna de unos
+X_train = [ones(m_train,1), X_train];
+
 %%Inicializamos alpha y num iteraciones
-alpha = 0.0000003;
-iterations = 400;
+alpha = 0.03;
+iterations = 1000;
 
 %inicializamos theta con ceros al tamaï¿½o de X_train
 theta_grad = zeros(size(X_train, 2), 1);
@@ -182,9 +187,18 @@ graficaConvergencia(J_history);
 %%--------------------------------------------------------------------------------
 %%Descenso con los 5 mejores
 
+%quitamos la columna de unos para poder normalizar
+X_trainBest(:,1) = [];
+%%Normalizamos los datos
+X_trainBest = featureNormalize(X_trainBest);
+y_trainBest = featureNormalize(y_trainBest);
+
+%volvemos a añadir la columna de unos
+X_trainBest = [ones(m_train,1), X_trainBest];
+
 %%Inicializamos alpha y num iteraciones
-alpha = 0.000003;
-iterations = 1000;
+alpha = 0.3;
+iterations = 30;
 
 %inicializamos theta con ceros al tamaï¿½o de X_train
 theta_grad = zeros(size(X_trainBest, 2), 1);
