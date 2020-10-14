@@ -136,40 +136,64 @@ for i = 1:size(best5Holdout,1)
 endfor
 
 %realizamos la separacion en train y test
-[X_train,y_train, X_test, y_test] = holdout(X_temp, y, m, percent);
+[X_trainBest,y_trainBest, X_test, y_test] = holdout(X_temp, y, m, percent);
   
 m_train = length(y_train);
 m_test = length(y_test);
   
 %anadimos una columna de unos
-X_train = [ones(m_train,1), X_train];
+X_trainBest = [ones(m_train,1), X_trainBest];
 X_test = [ones(m_test,1), X_test];
   
 %calculo de theta
 fprintf "Thetas calculadas para 5 mejores en Holdout 70/30\n"
-theta = normalEqn(X_train, y_train)
+theta = normalEqn(X_trainBest, y_trainBest)
   
 %calulo del error para esa columna
 pre = X_test * theta;
 
 fprintf "Error calculado en Holdout 70/30\n"
 error = absError(m_test, pre, y_test)
-  
+
+
+%%-------------------------------------------------------
+%%EJERCICIO 2 DESCENSO DEL GRADIENTE
+%%-------------------------------------------------------
+
+%%Descenso con todo el conjunto de datos
+
+%realizamos la separacion en train y test
+[X_train,y_train, X_test, y_test] = holdout(X, y, m, percent);
 
 %%Inicializamos alpha y num iteraciones
-alpha = 0.01;
-iterations = 100;
+alpha = 0.0000003;
+iterations = 400;
 
 %inicializamos theta con ceros al tama�o de X_train
 theta_grad = zeros(size(X_train, 2), 1);
 
 %Aplica descenso del gradiente
-[theta, J_history] = gradientDescent(X_train, y_train, theta, alpha, iterations);
+[theta, J_history] = gradientDescent(X_train, y_train, theta_grad, alpha, iterations);
 
 %pintamos la grafica de convergencia
 graficaConvergencia(J_history);
 
 
+%%--------------------------------------------------------------------------------
+%%Descenso con los 5 mejores
+
+%%Inicializamos alpha y num iteraciones
+alpha = 0.000003;
+iterations = 1000;
+
+%inicializamos theta con ceros al tama�o de X_train
+theta_grad = zeros(size(X_trainBest, 2), 1);
+
+%Aplica descenso del gradiente
+[theta, J_history] = gradientDescent(X_trainBest, y_trainBest, theta_grad, alpha, iterations);
+
+%pintamos la grafica de convergencia
+graficaConvergencia(J_history);
 
   
   

@@ -9,9 +9,9 @@ function [theta, J_history] = gradientDescent(X, y, theta, alpha, iterations)
   for i = 1:iterations
     
     %calculo de la nueva theta
-    theta = theta - alpha* (1/m) * (X' * (X * theta - y));
+    theta = theta - alpha * (1/m) * (X' * (X * theta - y));
     %calcula el coste y guarda en el historial
-    J_history = computeCost(X, y, theta); 
+    J_history(i) = computeCost(X, y, theta); 
     
   endfor
   
