@@ -10,8 +10,6 @@ dataset = load('../datahw1.csv');
 X = dataset(:,1:14);
 y = dataset(:,15);
 
-X = featureNormalize(X);
-
 m = length(y);
 
 x_size = size(X,2);
@@ -183,38 +181,22 @@ X = dataset(:,1:14);
 
   errorHoldout = absError(m_test, pre, y_test);
   
-  
-  
-  
-##%%APARTADO B
-##%imprime los mejores 5 resultados
-##best5 = sortrows(error_list, 2)(1:5,:);
-##%Imprime los 5 valores
-##best5
-##
-##%%APARTADO C
-##%%Repetimos usando los 5 mejores resultados
-##%%Guardamos las mejores 5 columnas
-##col = best5(1,1);
-##X_temp = X(:,col);
-##
-##for i = 2:size(best5,1)
-##    
-##  col = best5(i,1);
-##  X_temp = [X_temp, X(:,col)];
-##
-##endfor
-##
-##
-##%calculo de theta
-##  theta = normalEqn(X_temp, y);
-##  
-##  %calulo del error para esa columna
-##  pre = X_temp * theta;
-##
-##  error = absError(m, pre, y);
-  
-  
+
+%%Inicializamos alpha y num iteraciones
+alpha = 0.01;
+iterations = 100;
+
+%inicializamos theta con ceros al tamaño de X_train
+theta_grad = zeros(size(X_train, 2), 1);
+
+%Aplica descenso del gradiente
+[theta, J_history] = gradientDescent(X_train, y_train, theta, alpha, iterations);
+
+%pintamos la grafica de convergencia
+graficaConvergencia(J_history);
+
+
+
   
   
   
