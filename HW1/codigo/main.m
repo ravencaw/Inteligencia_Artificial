@@ -17,6 +17,7 @@ m = length(y);
 x_size = size(X,2);
 
 %% EJERCICIO 1 %%
+fprintf "--------------------------------\nEJERCICIO 1\n--------------------------------\n"
 fprintf "APARTADO A\n"
 %% Calculo de la regresion univariable tomando el conjunto de datos como test
 %% Apartado A
@@ -137,7 +138,7 @@ error = absError(m_test, pre, y_test)
 %%Repeticion apartado B
 %%Aplicar regresion univariable por cada columna
 fprintf "Thetas calculadas\n"
-for i = 1:x_size
+for i = 2:x_size
 
   %guardamos en una variable temporal la columna correspondiente a la iteracion  
   X_temp = X_train(:,i);
@@ -183,18 +184,18 @@ endfor
 %% Aplicamos la regresion
 
 %anadimos una columna de unos
-X_trainBest = [ones(m_train,1), X_trainBest];
+%X_trainBest = [ones(m_train,1), X_trainBest];
   
 %calculo de theta
 fprintf "Thetas 5 mejores\n"
 theta = normalEqn(X_trainBest, y_train)
 
-clear X_test_aux;
+%clear X_test_aux;
 %añadimos colmuna de unos al conjunto de test
-X_test_aux = [ones(m_test,1), X_test];
+%X_test_aux = [ones(m_test,1), X_test];
   
 %calulo del error para esa columna
-pre = X_test_aux * theta;
+pre = X_test * theta;
 
 fprintf "Error 5 mejores\n"
 error = absError(m_test, pre, y_test)
@@ -202,22 +203,30 @@ error = absError(m_test, pre, y_test)
 %%-------------------------------------------------------
 %%EJERCICIO 2 DESCENSO DEL GRADIENTE
 %%-------------------------------------------------------
-
+fprintf "--------------------------------\nEJERCICIO 2\n--------------------------------\n"
 %%Descenso con todo el conjunto de datos
+
+X_train(:,1) = [];
+y_train(:,1) = [];
 %%Normalizamos los datos
-X = featureNormalize(X);
-y = featureNormalize(y);
+X_train = featureNormalize(X_train);
+y_train = featureNormalize(y_train);
+
+X_train = [ones(m_train,1), X_train];
+y_train = [ones(m_train,1), y_train];
 
 %%Inicializamos alpha y num iteraciones
 alpha = 0.03;
 iterations = 1000;
 
-%inicializamos theta con ceros al tamaï¿½o de X_train
+%inicializamos theta con ceros al tamano de X_train
 theta_grad = zeros(size(X_train, 2), 1);
 
 %Aplica descenso del gradiente
 [theta, J_history] = gradientDescent(X_train, y_train, theta_grad, alpha, iterations);
 
+fprintf "Thetas calculadas con descenso de gradiente con conjunto completo" 
+theta
 %pintamos la grafica de convergencia
 graficaConvergencia(J_history);
 
@@ -225,29 +234,27 @@ graficaConvergencia(J_history);
 %%--------------------------------------------------------------------------------
 %%Descenso con los 5 mejores
 
-
-
 %quitamos la columna de unos para poder normalizar
-X_trainBest(:,1) = [];
+%X_trainBest(:,1) = [];
 %%Normalizamos los datos
-X_trainBest = featureNormalize(X_trainBest);
-y_trainBest = featureNormalize(y_trainBest);
+%X_trainBest = featureNormalize(X_trainBest);
+%y_trainBest = featureNormalize(y_trainBest);
 
 %volvemos a añadir la columna de unos
-X_trainBest = [ones(m_train,1), X_trainBest];
+%X_trainBest = [ones(m_train,1), X_trainBest];
 
 %%Inicializamos alpha y num iteraciones
-alpha = 0.3;
-iterations = 30;
+%alpha = 0.3;
+%iterations = 30;
 
 %inicializamos theta con ceros al tamaï¿½o de X_train
-theta_grad = zeros(size(X_trainBest, 2), 1);
+%theta_grad = zeros(size(X_trainBest, 2), 1);
 
 %Aplica descenso del gradiente
-[theta, J_history] = gradientDescent(X_trainBest, y_trainBest, theta_grad, alpha, iterations);
+%[theta, J_history] = gradientDescent(X_trainBest, y_trainBest, theta_grad, alpha, iterations);
 
 %pintamos la grafica de convergencia
-graficaConvergencia(J_history);
+%graficaConvergencia(J_history);
 
   
   
