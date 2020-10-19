@@ -225,7 +225,7 @@ theta_grad = zeros(size(X_train, 2), 1);
 %Aplica descenso del gradiente
 [theta, J_history] = gradientDescent(X_train, y_train, theta_grad, alpha, iterations);
 
-fprintf "Thetas calculadas con descenso de gradiente con conjunto completo" 
+fprintf "Thetas calculadas con descenso de gradiente con conjunto completo\n" 
 theta
 %pintamos la grafica de convergencia
 graficaConvergencia(J_history);
@@ -235,26 +235,28 @@ graficaConvergencia(J_history);
 %%Descenso con los 5 mejores
 
 %quitamos la columna de unos para poder normalizar
-%X_trainBest(:,1) = [];
+X_trainBest(:,1) = [];
 %%Normalizamos los datos
-%X_trainBest = featureNormalize(X_trainBest);
-%y_trainBest = featureNormalize(y_trainBest);
+X_trainBest = featureNormalize(X_trainBest);
 
 %volvemos a añadir la columna de unos
-%X_trainBest = [ones(m_train,1), X_trainBest];
+X_trainBest = [ones(m_train,1), X_trainBest];
 
 %%Inicializamos alpha y num iteraciones
-%alpha = 0.3;
-%iterations = 30;
+alpha = 0.3;
+iterations = 30;
 
 %inicializamos theta con ceros al tamaï¿½o de X_train
-%theta_grad = zeros(size(X_trainBest, 2), 1);
+theta_grad = zeros(size(X_trainBest, 2), 1);
 
 %Aplica descenso del gradiente
-%[theta, J_history] = gradientDescent(X_trainBest, y_trainBest, theta_grad, alpha, iterations);
+[theta, J_history] = gradientDescent(X_trainBest, y_train, theta_grad, alpha, iterations);
+
+fprintf "Theta calculada con descenso de gradiente con conjunto 5 mejores\n" 
+theta
 
 %pintamos la grafica de convergencia
-%graficaConvergencia(J_history);
+graficaConvergencia(J_history);
 
   
   
