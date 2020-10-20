@@ -168,34 +168,32 @@ clear X_temp;
 fprintf "Lista de errores\n"
 error_list
 %ordena la matriz en base a la segunda columna con los errores y guardamos los 5 mejores
-best5 = sortrows(error_list, 2)(1:5,:);
+best5 = sortrows(error_list, 2)(2:6,:);
 %Imprime los 5 valores
 fprintf "Mejores 5\n"
 best5
+%anadimos una columna de unos
+X_trainBest = [ones(m_train,1)];
+X_testBest = [ones(m_test,1)];
 
 %guarda los 5 mejores en un conjunto nuevo
-for i = 1:size(best5,1)
+
+for i = 2:size(best5,1)
   
   col = best5(i,1);
-  X_trainBest = X_train(:,col);
+  X_trainBest = horzcat(X_trainBest,X_train(:,col));
+  X_testBest = horzcat(X_testBest,X_test(:,col));
   
 endfor
 
 %% Aplicamos la regresion
-
-%anadimos una columna de unos
-%X_trainBest = [ones(m_train,1), X_trainBest];
   
 %calculo de theta
 fprintf "Thetas 5 mejores\n"
 theta = normalEqn(X_trainBest, y_train)
-
-%clear X_test_aux;
-%añadimos colmuna de unos al conjunto de test
-%X_test_aux = [ones(m_test,1), X_test];
   
 %calulo del error para esa columna
-pre = X_test * theta;
+pre = X_testBest * theta;
 
 fprintf "Error 5 mejores\n"
 error = absError(m_test, pre, y_test)
@@ -205,7 +203,6 @@ error = absError(m_test, pre, y_test)
 %%-------------------------------------------------------
 fprintf "--------------------------------\nEJERCICIO 2\n--------------------------------\n"
 %%Descenso con todo el conjunto de datos
-
 X_train(:,1) = [];
 
 %%Normalizamos los datos
@@ -233,6 +230,8 @@ graficaConvergencia(J_history);
 %%--------------------------------------------------------------------------------
 %%Descenso con los 5 mejores
 
+X_trainBest(:,1) = [];
+
 %%Normalizamos los datos
 X_trainBest = featureNormalize(X_trainBest);
 
@@ -241,7 +240,7 @@ X_trainBest = [ones(m_train,1), X_trainBest];
 
 %%Inicializamos alpha y num iteraciones
 alpha = 0.3;
-iterations = 30;
+iterations = 200;
 
 %inicializamos theta con ceros al tamaï¿½o de X_train
 theta_grad = zeros(size(X_trainBest, 2), 1);
