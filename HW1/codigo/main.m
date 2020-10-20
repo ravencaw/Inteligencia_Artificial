@@ -234,8 +234,6 @@ graficaConvergencia(J_history);
 %%--------------------------------------------------------------------------------
 %%Descenso con los 5 mejores
 
-%quitamos la columna de unos para poder normalizar
-X_trainBest(:,1) = [];
 %%Normalizamos los datos
 X_trainBest = featureNormalize(X_trainBest);
 
