@@ -40,7 +40,8 @@ error = absError(m, pre, y)
 %%Apartado B
 %% Regresion univariable por cada columna
 fprintf "\nAPARTADO B\n"
-
+%Guardamos la mejor theta
+bestTheta = 0;
 fprintf "Thetas calculadas\n"
 for i = 1:x_size
 
@@ -51,6 +52,10 @@ for i = 1:x_size
   
   %calculo de theta
   theta = normalEqn(X_temp, y)
+  
+   if(i == 1)
+    bestTheta = theta;
+  endif
   
   %calulo del error para esa columna
   pre = X_temp * theta;
@@ -138,6 +143,7 @@ error = absError(m_test, pre, y_test)
 %%Repeticion apartado B
 %%Aplicar regresion univariable por cada columna
 fprintf "Thetas calculadas\n"
+
 for i = 2:x_size
 
   %guardamos en una variable temporal la columna correspondiente a la iteracion  
@@ -147,7 +153,7 @@ for i = 2:x_size
   
   %calculo de theta
   theta = normalEqn(X_temp, y_train)
-  
+ 
   %añadimos colmuna de unos al conjunto de test
   X_test_aux = [ones(m_test,1), X_test(:,i)];
   %calulo del error para esa columna
@@ -168,19 +174,19 @@ clear X_temp;
 fprintf "Lista de errores\n"
 error_list
 %ordena la matriz en base a la segunda columna con los errores y guardamos los 5 mejores
-best5 = sortrows(error_list, 2)(2:6,:);
+best5split = sortrows(error_list, 2)(2:6,:);
 %Imprime los 5 valores
 fprintf "Mejores 5\n"
-best5
+best5split
 %anadimos una columna de unos
 X_trainBest = [ones(m_train,1)];
 X_testBest = [ones(m_test,1)];
 
 %guarda los 5 mejores en un conjunto nuevo
 
-for i = 2:size(best5,1)
+for i = 2:size(best5split,1)
   
-  col = best5(i,1);
+  col = best5split(i,1);
   X_trainBest = horzcat(X_trainBest,X_train(:,col));
   X_testBest = horzcat(X_testBest,X_test(:,col));
   
@@ -224,7 +230,7 @@ theta_grad = zeros(size(X_train, 2), 1);
 fprintf "Thetas calculadas con descenso de gradiente con conjunto completo\n" 
 theta
 %pintamos la grafica de convergencia
-graficaConvergencia(J_history);
+%graficaConvergencia(J_history);
 
 
 %%--------------------------------------------------------------------------------
@@ -246,15 +252,28 @@ iterations = 200;
 theta_grad = zeros(size(X_trainBest, 2), 1);
 
 %Aplica descenso del gradiente
-[theta, J_history] = gradientDescent(X_trainBest, y_train, theta_grad, alpha, iterations);
+[theta, J_historyBest5] = gradientDescent(X_trainBest, y_train, theta_grad, alpha, iterations);
 
 fprintf "Theta calculada con descenso de gradiente con conjunto 5 mejores\n" 
 theta
 
 %pintamos la grafica de convergencia
-graficaConvergencia(J_history);
+%graficaConvergencia(J_historyBest5);
 
-  
+%%-------------------------------------------------------
+%%EJERCICIO 3 VISUALIZACION DE DATOS
+%%-------------------------------------------------------
+
+%obtenemos el valor de la fila con el mejor valor del EJ1-A
+bestRow = best5(1,1);
+%obtenemos la mejor columna del conjunto de datos
+best = X(:,bestRow);
+
+visualizarDatos(best, bestTheta, J_history, J_historyBest5, y) 
+
+
+
+
   
   
   

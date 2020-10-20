@@ -1,6 +1,7 @@
 function graficaConvergencia(J_history)
   
-  figure
+  %Esta funcion no tiene un figure ya que se llama desde la funcion visualizarDatos
+  
   plot(1:length(J_history),J_history, '-b', 'LineWidth',2);
   hold on;
   ylabel('Cost');
