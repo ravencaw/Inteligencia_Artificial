@@ -207,13 +207,12 @@ fprintf "--------------------------------\nEJERCICIO 2\n------------------------
 %%Descenso con todo el conjunto de datos
 
 X_train(:,1) = [];
-y_train(:,1) = [];
+
 %%Normalizamos los datos
 X_train = featureNormalize(X_train);
 y_train = featureNormalize(y_train);
 
 X_train = [ones(m_train,1), X_train];
-y_train = [ones(m_train,1), y_train];
 
 %%Inicializamos alpha y num iteraciones
 alpha = 0.03;
