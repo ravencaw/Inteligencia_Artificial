@@ -231,6 +231,12 @@ theta
 %pintamos la grafica de convergencia
 %graficaConvergencia(J_history);
 
+%hallamos la prediccion en base al modelo
+pre = X_test * theta;
+
+%hallamos el error de la prediccion
+error = absError(m_test, pre, y_test)
+
 
 %%--------------------------------------------------------------------------------
 %%Descenso con los 5 mejores
@@ -258,6 +264,12 @@ theta
 
 %pintamos la grafica de convergencia
 %graficaConvergencia(J_historyBest5);
+
+%hallamos la prediccion en base al modelo
+pre = X_testBest * theta;
+
+%hallamos el error de la prediccion
+error = absError(m_test, pre, y_test)
 
 %%-------------------------------------------------------
 %%EJERCICIO 3 VISUALIZACION DE DATOS
