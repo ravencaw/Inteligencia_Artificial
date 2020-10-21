@@ -22,7 +22,6 @@ fprintf "APARTADO A\n"
 %% Calculo de la regresion univariable tomando el conjunto de datos como test
 %% Apartado A
 %% Regresion multivariable de todo el conjunto
-fprintf "\nAPARTADO A\n"
 %anadimos una columna de unos
 X_temp = [ones(m,1), X];
   
