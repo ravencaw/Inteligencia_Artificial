@@ -218,7 +218,7 @@ X_train = [ones(m_train,1), X_train];
 
 %%Inicializamos alpha y num iteraciones
 alpha = 0.03;
-iterations = 1000;
+iterations = 200;
 
 %inicializamos theta con ceros al tamano de X_train
 theta_grad = zeros(size(X_train, 2), 1);
