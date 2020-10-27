@@ -10,7 +10,7 @@ X = data(:,2:3);
 y = data(:,1);
 
 %%Ejercicio 1
-plotData(X, y);
+%plotData(X, y);
 
 %%---------------------------------------------
 
@@ -39,3 +39,15 @@ iterations = 10;
 
 fprintf('Funcion de descenso del gradiente para iterations=%d y alpha=%d \n', iterations, alpha)
 [theta, J_history] = gradientDescent(X, y, theta_ini, alpha, iterations);
+
+%imprimir la tasa de acierto y la grafica con la frontera de decisión
+plotDecisionBoundary(theta, X, y);
+
+%imprimir la tasa de acierto y la grafica con la frontera de decisión
+%prediccion
+p = predict(theta',X');
+%tasa de acierto del modelo
+percent = mean((p==y))*100;
+%imprimimos tasa de acierto 
+fprintf('La tasa de acierto: %d\n', percent(1));
+

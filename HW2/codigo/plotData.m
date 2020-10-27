@@ -3,7 +3,7 @@ function plotData(x, y)
 %PLOTDATA Plots the data points x and y into a new figure 
 % ============================================================
 
-figure(1); % open a new figure window
+figure; % open a new figure window
 
 IP = (y == 1);%Indices positivos
 IN = (y == 0);%Indices negativos

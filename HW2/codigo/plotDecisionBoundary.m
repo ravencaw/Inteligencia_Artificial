@@ -1,7 +1,7 @@
 function plotDecisionBoundary(theta, X, y)
 %PLOTDECISIONBOUNDARY Plots the data points X and y into a new figure with
 %the decision boundary defined by theta
-   
+
 % Plot Data
 plotData(X(:,2:3), y);
 hold on
