@@ -32,3 +32,10 @@ fprintf('Cost at initial theta (zeros): %f\n', coste_ini)
 fprintf('Gradient at initial theta (zeros): \n') 
 fprintf(' %f \n', grad)
 
+%%descenso del gradiente
+%%inicializamos los parametros
+alpha = 1;
+iterations = 10;
+
+fprintf('Funcion de descenso del gradiente para iterations=%d y alpha=%d \n', iterations, alpha)
+[theta, J_history] = gradientDescent(X, y, theta_ini, alpha, iterations);
