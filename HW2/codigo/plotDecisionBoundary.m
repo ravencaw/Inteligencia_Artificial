@@ -18,6 +18,7 @@ if size(X, 2) <= 3
     
     % Legend, specific for the exercise
     axis([350, 760, 100, 820])    
+    %axis([350, 760, 100, 820])  
 else
     % Here is the grid range
       u = linspace(350, 760, 50);
