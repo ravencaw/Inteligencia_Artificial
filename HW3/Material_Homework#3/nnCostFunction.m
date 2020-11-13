@@ -1,4 +1,4 @@
-function J = nnCostFunction (nn_params, input_layer_size, hidden_layer_size, num_labels, X, y, lambda)
+function [J, grad] = nnCostFunction (nn_params, input_layer_size, hidden_layer_size, num_labels, X, y, lambda)
   
   theta1 = reshape(nn_params(1:(hidden_layer_size * (input_layer_size + 1))), ...
                 hidden_layer_size, (input_layer_size+1));
@@ -21,7 +21,7 @@ function J = nnCostFunction (nn_params, input_layer_size, hidden_layer_size, num
     
     suma = suma + aux * log(h) + (1 - aux) * log(1 - h);
     
-    delta3 = a3-aux;
+    delta3 = a3-aux';
     delta2 = (theta2' * delta3) .* ((1-a2).*a3);
     delta2 = delta2(2:end);
     
