@@ -21,7 +21,7 @@ plotData(X_total, y_total);
 % Ejercicio 2 
 %% Setup the parameters you will use for this exercise
 input_layer_size  = 2;  % 20x20 Input Images of Digits
-hidden_layer_size = 2;   % 25 hidden units
+hidden_layer_size = 10;   % 25 hidden units
 num_labels = 1;          % 10 labels, from 1 to 10   
                           % (note that we have mapped "0" to label 10)
                           
@@ -29,14 +29,14 @@ fprintf('Ejercicio 2\n')
 
 
 %thetas iniciales para probar
-initial_Theta1=[0.0837, -0.0081, 0.0312;
-              -0.1078, -0.0418, -0.0647];
+%initial_Theta1=[0.0837, -0.0081, 0.0312;
+%               -0.1078, -0.0418, -0.0647];
 
-initial_Theta2=[0.0192, 0.0248, 0.0240];
+%initial_Theta2=[0.0192, 0.0248, 0.0240];
 
 %Generamos las thetas aleatoriamente
-%initial_Theta1 = randInitializeWeights(input_layer_size,hidden_layer_size);
-%initial_Theta2 = randInitializeWeights(hidden_layer_size,num_labels);
+initial_Theta1 = randInitializeWeights(input_layer_size,hidden_layer_size);
+initial_Theta2 = randInitializeWeights(hidden_layer_size,num_labels);
 
 % Unroll parameters 
 initial_nn_params = [initial_Theta1(:) ; initial_Theta2(:)];
@@ -48,6 +48,7 @@ fprintf(['Cost at parameters (loaded from ex4weights): %f \n(this value should b
 
 fprintf('Valor del descenso del gradiente\n');
 round(grad .* 10000) ./ 10000
+%grad
 
 % Descenso del gradiente
 options = optimset('GradObj', 'on','MaxIter', 150);
@@ -73,7 +74,12 @@ Theta1
 Theta2
 
 % Para terminar el Apartado 2 imprimimos la grafica con la frontera de decision
-%plot_decision_boundary(Theta1,Theta2, X_total, y_total);
+plot_decision_boundary(Theta1,Theta2, X_total, y_total);
+
+p = predict(Theta1, Theta2, X);
+
+printf('Exactitud con %d neuronas: %f\n', hidden_layer_size, mean(double(p==y)*100));
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -144,7 +150,7 @@ printf("Fin del bucle\n");
 %Ejercicio 4
 %% Setup the parameters you will use for this exercise
 input_layer_size  = 2;  
-hidden_layer_size = 3; %3 neuronas para probar 10 neuronas para el ejercicio  
+hidden_layer_size = 10; %3 neuronas para probar 10 neuronas para el ejercicio  
 num_labels = 1;
 
 %Generamos las thetas aleatoriamente
@@ -175,7 +181,7 @@ round(grad .* 100000) ./ 1000000
 
 % Descenso del gradiente
 %100o iteraciones para probar con las thetas de prueba
-options = optimset('GradObj', 'on','MaxIter', 1000);
+options = optimset('GradObj', 'on','MaxIter', 150);
 
 costFunction = (@(p)nnCostFunction(p, input_layer_size, hidden_layer_size, 
                                     num_labels, X_total, y_total));

@@ -22,7 +22,7 @@ function [J, grad] = nnCostFunctionReg (nn_params, input_layer_size, hidden_laye
     suma = suma + aux * log(h) + (1 - aux) * log(1 - h);
     
     delta3 = a3-aux';
-    delta2 = (theta2' * delta3) .* ((1-a2).*a3);
+    delta2 = (theta2' * delta3) .* ((1-a2).*a2);
     delta2 = delta2(2:end);
     
     DELTA1 = DELTA1 + delta2*a1';
