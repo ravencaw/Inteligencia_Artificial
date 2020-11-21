@@ -74,7 +74,8 @@ Theta1
 Theta2
 
 % Para terminar el Apartado 2 imprimimos la grafica con la frontera de decision
-plot_decision_boundary(Theta1,Theta2, X_total, y_total);
+titulo = "Ejercicio 2, red con 2 neuronas";
+plot_decision_boundary(Theta1,Theta2, X_total, y_total, titulo);
 
 p = predict(Theta1, Theta2, X);
 
@@ -89,6 +90,9 @@ fprintf('Ejercicio 3\n')
 
 %Guardamos en un array los tamaños de la capa a probar para iterar sobre ellos
 hidden_layer_sizes= [1,2,3,4,5,10];
+%titulos plots
+titulo = {"Apartado 3 - neuronas: 1", "Apartado 3 - neuronas: 2", "Apartado 3 - neuronas: 3"...
+, "Apartado 3 - neuronas: 4", "Apartado 3 - neuronas: 5", "Apartado 3 - neuronas: 10"};
 
 for i=1:length(hidden_layer_sizes)
   
@@ -133,7 +137,7 @@ for i=1:length(hidden_layer_sizes)
 
   
   %Imprime los resultados
-  %plot_decision_boundary(Theta1, Theta2, X, y);
+  plot_decision_boundary(Theta1, Theta2, X, y, titulo(i));
 
   p = predict(Theta1, Theta2, X);
 
@@ -204,7 +208,8 @@ Theta1
 Theta2
 
 % Para terminar el Apartado 2 imprimimos la grafica con la frontera de decision
-plot_decision_boundary(Theta1,Theta2, X_total, y_total);
+titulo = strcat("Apartado 4 neuronas: 10 con lambda: ",num2str(lambda));
+plot_decision_boundary(Theta1,Theta2, X_total, y_total, titulo);
 
 p = predict(Theta1, Theta2, X);
 

@@ -1,4 +1,4 @@
-function plot_decision_boundary(Theta1,Theta2, X, y)
+function plot_decision_boundary(Theta1,Theta2, X, y, titulo)
   
     % Set min and max values and give it some padding
     x_min = min(min(X(1, :)),-0.6);
@@ -24,5 +24,6 @@ function plot_decision_boundary(Theta1,Theta2, X, y)
     ylabel('x2');
     xlabel('x1');
     plotData(X,y);
+    title(titulo);
     hold off;
 end
