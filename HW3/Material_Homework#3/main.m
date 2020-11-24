@@ -7,7 +7,7 @@ clear ; close all; clc
 fprintf('Loading Data ...\n')
 
 % Ejercicio 1 Carga y visualizacion
-fprintf('Ejercicio 1, imprimiendo grafica\n')
+fprintf('\n------------------------\nEjercicio 1, imprimiendo grafica\n------------------------\n')
 
 load('data.mat');
 
@@ -25,7 +25,7 @@ hidden_layer_size = 10;   % 25 hidden units
 num_labels = 1;          % 10 labels, from 1 to 10   
                           % (note that we have mapped "0" to label 10)
                           
-fprintf('Ejercicio 2\n')
+fprintf('\n------------------------\nEjercicio 2\n------------------------\n')
 
 
 %thetas iniciales para probar
@@ -86,9 +86,9 @@ printf('Exactitud con %d neuronas: %f\n', hidden_layer_size, mean(double(p==y)*1
 
 %Ejercicio 3
 %experimentamos con diferentes numero de neuronas en la capa oculta
-fprintf('Ejercicio 3\n')
+fprintf('\n------------------------\nEjercicio 3\n------------------------\n')
 
-%Guardamos en un array los tamaños de la capa a probar para iterar sobre ellos
+%Guardamos en un array los tamaï¿½os de la capa a probar para iterar sobre ellos
 hidden_layer_sizes= [1,2,3,4,5,10];
 %titulos plots
 titulo = {"Apartado 3 - neuronas: 1", "Apartado 3 - neuronas: 2", "Apartado 3 - neuronas: 3"...
@@ -98,7 +98,7 @@ for i=1:length(hidden_layer_sizes)
   
   printf("Comienzo de la iteracion\n");
   
-  % Obtenemos el tamaño de la iteracion actual
+  % Obtenemos el tamaï¿½o de la iteracion actual
   hidden_layer_size=hidden_layer_sizes(i);
   
   %Generamos las thetas aleatoriamente
@@ -152,6 +152,9 @@ printf("Fin del bucle\n");
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Ejercicio 4
+
+fprintf('\n------------------------\nEjercicio 4\n------------------------\n')
+
 %% Setup the parameters you will use for this exercise
 input_layer_size  = 2;  
 hidden_layer_size = 10; %3 neuronas para probar 10 neuronas para el ejercicio  
@@ -171,8 +174,12 @@ initial_Theta2 = randInitializeWeights(hidden_layer_size,num_labels);
 % Unroll parameters 
 initial_nn_params = [initial_Theta1(:) ; initial_Theta2(:)];
 
-% Weight regularization parameter (we set this to 0 here).
-lambda = 0.03;
+%####################################################################################
+
+% Weight regularization parameter (we set this to 0.001 here).
+lambda = 0.001;
+
+fprintf("\nLAMBDA: %f \n-----------------------\n",lambda)
 
 %apply regularization
 [J, grad] = nnCostFunctionReg(initial_nn_params, input_layer_size, hidden_layer_size, ...
@@ -187,8 +194,249 @@ round(grad .* 100000) ./ 1000000
 %100o iteraciones para probar con las thetas de prueba
 options = optimset('GradObj', 'on','MaxIter', 150);
 
-costFunction = (@(p)nnCostFunction(p, input_layer_size, hidden_layer_size, 
-                                    num_labels, X_total, y_total));
+costFunction = (@(p)nnCostFunctionReg(p, input_layer_size, hidden_layer_size, 
+                                    num_labels, X_total, y_total, lambda));
+                                    
+% Now, costFunction is a function that takes in only one argument (the
+% neural network parameters)
+
+[nn_params, cost] = fminunc(costFunction, initial_nn_params, options);                                    
+
+% Obtain Theta1 and Theta2 back from nn_params
+
+Theta1 = reshape(nn_params(1:(hidden_layer_size * (input_layer_size + 1))), ...
+                hidden_layer_size, (input_layer_size+1));
+                
+anterior = hidden_layer_size * (input_layer_size + 1);
+                
+Theta2 = reshape(nn_params((anterior + 1): end), num_labels, (hidden_layer_size+1));
+
+Theta1
+Theta2
+
+% Para terminar el Apartado 2 imprimimos la grafica con la frontera de decision
+titulo = strcat("Apartado 4 neuronas: 10 con lambda: ",num2str(lambda));
+plot_decision_boundary(Theta1,Theta2, X_total, y_total, titulo);
+
+p = predict(Theta1, Theta2, X);
+
+printf('Exactitud con %d neuronas: %f\n', hidden_layer_size, mean(double(p==y)*100));
+
+%####################################################################################
+
+
+% Weight regularization parameter (we set this to 0.003 here).
+lambda = 0.003;
+
+fprintf("\nLAMBDA: %f \n-----------------------\n",lambda)
+
+%apply regularization
+[J, grad] = nnCostFunctionReg(initial_nn_params, input_layer_size, hidden_layer_size, ...
+                   num_labels, X_total, y_total, lambda);
+
+fprintf(['Cost at parameters (loaded from ex4weights): %f \n(this value should be about 0.6926)\n'], J);
+
+fprintf('Valor del descenso del gradiente\n');
+round(grad .* 100000) ./ 1000000
+
+% Descenso del gradiente
+%100o iteraciones para probar con las thetas de prueba
+options = optimset('GradObj', 'on','MaxIter', 150);
+
+costFunction = (@(p)nnCostFunctionReg(p, input_layer_size, hidden_layer_size, 
+                                    num_labels, X_total, y_total, lambda));
+                                    
+% Now, costFunction is a function that takes in only one argument (the
+% neural network parameters)
+
+[nn_params, cost] = fminunc(costFunction, initial_nn_params, options);                                    
+
+% Obtain Theta1 and Theta2 back from nn_params
+
+Theta1 = reshape(nn_params(1:(hidden_layer_size * (input_layer_size + 1))), ...
+                hidden_layer_size, (input_layer_size+1));
+                
+anterior = hidden_layer_size * (input_layer_size + 1);
+                
+Theta2 = reshape(nn_params((anterior + 1): end), num_labels, (hidden_layer_size+1));
+
+Theta1
+Theta2
+
+% Para terminar el Apartado 2 imprimimos la grafica con la frontera de decision
+titulo = strcat("Apartado 4 neuronas: 10 con lambda: ",num2str(lambda));
+plot_decision_boundary(Theta1,Theta2, X_total, y_total, titulo);
+
+p = predict(Theta1, Theta2, X);
+
+printf('Exactitud con %d neuronas: %f\n', hidden_layer_size, mean(double(p==y)*100));
+
+%####################################################################################
+
+% Weight regularization parameter (we set this to 0.03 here).
+lambda = 0.01;
+
+fprintf("\nLAMBDA: %f \n-----------------------\n",lambda)
+
+%apply regularization
+[J, grad] = nnCostFunctionReg(initial_nn_params, input_layer_size, hidden_layer_size, ...
+                   num_labels, X_total, y_total, lambda);
+
+fprintf(['Cost at parameters (loaded from ex4weights): %f \n(this value should be about 0.6926)\n'], J);
+
+fprintf('Valor del descenso del gradiente\n');
+round(grad .* 100000) ./ 1000000
+
+% Descenso del gradiente
+%100o iteraciones para probar con las thetas de prueba
+options = optimset('GradObj', 'on','MaxIter', 150);
+
+costFunction = (@(p)nnCostFunctionReg(p, input_layer_size, hidden_layer_size, 
+                                    num_labels, X_total, y_total, lambda));
+                                    
+% Now, costFunction is a function that takes in only one argument (the
+% neural network parameters)
+
+[nn_params, cost] = fminunc(costFunction, initial_nn_params, options);                                    
+
+% Obtain Theta1 and Theta2 back from nn_params
+
+Theta1 = reshape(nn_params(1:(hidden_layer_size * (input_layer_size + 1))), ...
+                hidden_layer_size, (input_layer_size+1));
+                
+anterior = hidden_layer_size * (input_layer_size + 1);
+                
+Theta2 = reshape(nn_params((anterior + 1): end), num_labels, (hidden_layer_size+1));
+
+Theta1
+Theta2
+
+% Para terminar el Apartado 2 imprimimos la grafica con la frontera de decision
+titulo = strcat("Apartado 4 neuronas: 10 con lambda: ",num2str(lambda));
+plot_decision_boundary(Theta1,Theta2, X_total, y_total, titulo);
+
+p = predict(Theta1, Theta2, X);
+
+printf('Exactitud con %d neuronas: %f\n', hidden_layer_size, mean(double(p==y)*100));
+
+%####################################################################################
+
+% Weight regularization parameter (we set this to 0.03 here).
+lambda = 0.03;
+
+fprintf("\nLAMBDA: %f \n-----------------------\n",lambda)
+
+%apply regularization
+[J, grad] = nnCostFunctionReg(initial_nn_params, input_layer_size, hidden_layer_size, ...
+                   num_labels, X_total, y_total, lambda);
+
+fprintf(['Cost at parameters (loaded from ex4weights): %f \n(this value should be about 0.6926)\n'], J);
+
+fprintf('Valor del descenso del gradiente\n');
+round(grad .* 100000) ./ 1000000
+
+% Descenso del gradiente
+%100o iteraciones para probar con las thetas de prueba
+options = optimset('GradObj', 'on','MaxIter', 150);
+
+costFunction = (@(p)nnCostFunctionReg(p, input_layer_size, hidden_layer_size, 
+                                    num_labels, X_total, y_total, lambda));
+                                    
+% Now, costFunction is a function that takes in only one argument (the
+% neural network parameters)
+
+[nn_params, cost] = fminunc(costFunction, initial_nn_params, options);                                    
+
+% Obtain Theta1 and Theta2 back from nn_params
+
+Theta1 = reshape(nn_params(1:(hidden_layer_size * (input_layer_size + 1))), ...
+                hidden_layer_size, (input_layer_size+1));
+                
+anterior = hidden_layer_size * (input_layer_size + 1);
+                
+Theta2 = reshape(nn_params((anterior + 1): end), num_labels, (hidden_layer_size+1));
+
+Theta1
+Theta2
+
+% Para terminar el Apartado 2 imprimimos la grafica con la frontera de decision
+titulo = strcat("Apartado 4 neuronas: 10 con lambda: ",num2str(lambda));
+plot_decision_boundary(Theta1,Theta2, X_total, y_total, titulo);
+
+p = predict(Theta1, Theta2, X);
+
+printf('Exactitud con %d neuronas: %f\n', hidden_layer_size, mean(double(p==y)*100));
+
+%####################################################################################
+
+% Weight regularization parameter (we set this to 0.03 here).
+lambda = 0.1;
+
+fprintf("\nLAMBDA: %f \n-----------------------\n",lambda)
+
+%apply regularization
+[J, grad] = nnCostFunctionReg(initial_nn_params, input_layer_size, hidden_layer_size, ...
+                   num_labels, X_total, y_total, lambda);
+
+fprintf(['Cost at parameters (loaded from ex4weights): %f \n(this value should be about 0.6926)\n'], J);
+
+fprintf('Valor del descenso del gradiente\n');
+round(grad .* 100000) ./ 1000000
+
+% Descenso del gradiente
+%100o iteraciones para probar con las thetas de prueba
+options = optimset('GradObj', 'on','MaxIter', 150);
+
+costFunction = (@(p)nnCostFunctionReg(p, input_layer_size, hidden_layer_size, 
+                                    num_labels, X_total, y_total, lambda));
+                                    
+% Now, costFunction is a function that takes in only one argument (the
+% neural network parameters)
+
+[nn_params, cost] = fminunc(costFunction, initial_nn_params, options);                                    
+
+% Obtain Theta1 and Theta2 back from nn_params
+
+Theta1 = reshape(nn_params(1:(hidden_layer_size * (input_layer_size + 1))), ...
+                hidden_layer_size, (input_layer_size+1));
+                
+anterior = hidden_layer_size * (input_layer_size + 1);
+                
+Theta2 = reshape(nn_params((anterior + 1): end), num_labels, (hidden_layer_size+1));
+
+Theta1
+Theta2
+
+% Para terminar el Apartado 2 imprimimos la grafica con la frontera de decision
+titulo = strcat("Apartado 4 neuronas: 10 con lambda: ",num2str(lambda));
+plot_decision_boundary(Theta1,Theta2, X_total, y_total, titulo);
+
+p = predict(Theta1, Theta2, X);
+
+printf('Exactitud con %d neuronas: %f\n', hidden_layer_size, mean(double(p==y)*100));
+
+%####################################################################################
+
+% Weight regularization parameter (we set this to 0.03 here).
+lambda = 0.3;
+
+fprintf("\nLAMBDA: %f \n-----------------------\n",lambda)
+
+%apply regularization
+[J, grad] = nnCostFunctionReg(initial_nn_params, input_layer_size, hidden_layer_size, ...
+                   num_labels, X_total, y_total, lambda);
+
+fprintf(['Cost at parameters (loaded from ex4weights): %f \n(this value should be about 0.6926)\n'], J);
+
+fprintf('Valor del descenso del gradiente\n');
+round(grad .* 100000) ./ 1000000
+
+% Descenso del gradiente
+%100o iteraciones para probar con las thetas de prueba
+options = optimset('GradObj', 'on','MaxIter', 150);
+
+costFunction = (@(p)nnCostFunctionReg(p, input_layer_size, hidden_layer_size, 
+                                    num_labels, X_total, y_total, lambda));
                                     
 % Now, costFunction is a function that takes in only one argument (the
 % neural network parameters)
