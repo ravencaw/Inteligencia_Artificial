@@ -8,3 +8,10 @@ Función objetivo: la funcion objetivo sera cuando alcancemos la meta habiendo p
 Coste: si no se indica lo contrario, el coste es 1, por lo que el coste del camino será el número de pasos dados en el camino.
 Observaciones: cualquier aclaración que se quiera realizar, como por ejemplo detalles de implementación
 
+
+Laberinto prueba:
+S,0,0,%
+0,%,0,%
+%,K,0,%
+%,0,0,G
+

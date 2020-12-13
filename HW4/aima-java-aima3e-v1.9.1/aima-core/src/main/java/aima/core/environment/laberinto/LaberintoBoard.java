@@ -14,12 +14,15 @@ public class LaberintoBoard {
     private int col;
 
     private static char state[][] = {
-        {'S', '0', '0', '%'},
-        {'0', '%', '0', '%'},
-        {'%', 'K', '0', '%'},
-        {'%', '0', '0', 'G'}
+        {'S', ' ', ' ', '%'},
+        {' ', '%', ' ', '%'},
+        {'%', 'K', ' ', '%'},
+        {'%', ' ', ' ', 'G'}
     };
 
+    /*
+    constructor incompleto hay que asignar el punto de inicio dinamicamente
+     */
     public LaberintoBoard() {
         this.row = 0;
         this.col = 0;
@@ -32,6 +35,14 @@ public class LaberintoBoard {
 
     public LaberintoBoard(LaberintoBoard copyBoard) {
         this(copyBoard.getRow(), copyBoard.getCol());
+    }
+
+    public boolean isKPassed(int i, int j) {
+        if (state[i][j] == '.') {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public int getRow() {
@@ -61,19 +72,27 @@ public class LaberintoBoard {
     }
 
     public void moveRight() {
-        this.row++;
+       setValueState(row, col);
+       this.row++;
+       
     }
 
     public void moveLeft() {
+        setValueState(row, col);
         this.row--;
+        
     }
 
     public void moveDown() {
+        setValueState(row, col);
         this.col++;
+        
     }
 
     public void moveUp() {
+        setValueState(row, col);
         this.col--;
+        
     }
 
     public boolean canMove(Action where) {
@@ -81,13 +100,34 @@ public class LaberintoBoard {
         boolean res = false;
 
         if (where.equals(UP)) {
-            res = (getRow() != 0) && (state[getRow() - 1][getCol()] != '%');
+            if (getRow() != 0) {
+                if (state[getRow() - 1][getCol()] != '%' && state[getRow() - 1][getCol()] != '.') {
+                    res = true;
+                }
+            }
+            //res = (getRow() != 0) && (state[getRow() - 1][getCol()] != '%');
         } else if (where.equals(DOWN)) {
-            res = (getRow() != state.length - 1) && (state[getRow() + 1][getCol()] != '%');
+            if (getRow() != state.length - 1) {
+                if (state[getRow() + 1][getCol()] != '%' && state[getRow() + 1][getCol()] != '.') {
+                    res = true;
+                }
+            }
+            //res = (getRow() != state.length - 1) && (state[getRow() + 1][getCol()] != '%');
         } else if (where.equals(LEFT)) {
-            res = (getCol() != 0) && (state[getRow()][getCol() - 1] != '%');
+            if (getCol() != 0) {
+                if (state[getRow()][getCol() - 1] != '%' && state[getRow()][getCol() - 1] != '.') {
+                    res = true;
+                }
+            }
+            //res = (getCol() != 0) && (state[getRow()][getCol() - 1] != '%');
         } else if (where.equals(RIGHT)) {
-            res = (getCol() != state.length) && (state[getRow() + 1][getCol()] != '%');
+            if (getCol() != state.length - 1) {
+                if (state[getRow()][getCol() + 1] != '%' && state[getRow()][getCol() + 1] != '.') {
+                    res = true;
+                }
+            }
+
+            //res = (getCol() != state.length-1) && (state[getRow()][getCol() + 1] != '%');
         }
 
         return res;
@@ -95,7 +135,8 @@ public class LaberintoBoard {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj
+    ) {
         if (obj == null) {
             return false;
         }
