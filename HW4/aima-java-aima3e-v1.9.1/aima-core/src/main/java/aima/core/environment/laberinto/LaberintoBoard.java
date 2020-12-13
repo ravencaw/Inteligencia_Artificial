@@ -62,7 +62,7 @@ public class LaberintoBoard {
     }
 
     public static void setValueState(int i, int j) {
-        if (state[i][j] != '%') {
+        if (state[i][j] != '%' && state[i][j] != '.') {
             state[i][j] = '.';
         }
     }
@@ -72,27 +72,27 @@ public class LaberintoBoard {
     }
 
     public void moveRight() {
-       setValueState(row, col);
-       this.row++;
-       
+        setValueState(this.getRow(), this.getCol());
+        this.setRow(this.getRow() + 1);
+
     }
 
     public void moveLeft() {
-        setValueState(row, col);
-        this.row--;
-        
+        setValueState(this.getRow(), this.getCol());
+        this.setRow(this.getRow() - 1);
+
     }
 
     public void moveDown() {
-        setValueState(row, col);
-        this.col++;
-        
+        setValueState(this.getRow(), this.getCol());
+        this.setCol(this.getCol() + 1);
+
     }
 
     public void moveUp() {
-        setValueState(row, col);
-        this.col--;
-        
+        setValueState(this.getRow(), this.getCol());
+        this.setCol(this.getCol() - 1);
+
     }
 
     public boolean canMove(Action where) {
@@ -100,29 +100,29 @@ public class LaberintoBoard {
         boolean res = false;
 
         if (where.equals(UP)) {
-            if (getRow() != 0) {
-                if (state[getRow() - 1][getCol()] != '%' && state[getRow() - 1][getCol()] != '.') {
+            if (this.getRow() != 0) {
+                if (state[getRow() - 1][this.getCol()] != '%' && state[this.getRow() - 1][getCol()] != '.') {
                     res = true;
                 }
             }
             //res = (getRow() != 0) && (state[getRow() - 1][getCol()] != '%');
         } else if (where.equals(DOWN)) {
-            if (getRow() != state.length - 1) {
-                if (state[getRow() + 1][getCol()] != '%' && state[getRow() + 1][getCol()] != '.') {
+            if (this.getRow() != 3) {
+                if (state[this.getRow() + 1][this.getCol()] != '%' && state[this.getRow() + 1][this.getCol()] != '.') {
                     res = true;
                 }
             }
             //res = (getRow() != state.length - 1) && (state[getRow() + 1][getCol()] != '%');
         } else if (where.equals(LEFT)) {
-            if (getCol() != 0) {
-                if (state[getRow()][getCol() - 1] != '%' && state[getRow()][getCol() - 1] != '.') {
+            if (this.getCol() != 0) {
+                if (state[this.getRow()][this.getCol() - 1] != '%' && state[this.getRow()][this.getCol() - 1] != '.') {
                     res = true;
                 }
             }
             //res = (getCol() != 0) && (state[getRow()][getCol() - 1] != '%');
         } else if (where.equals(RIGHT)) {
-            if (getCol() != state.length - 1) {
-                if (state[getRow()][getCol() + 1] != '%' && state[getRow()][getCol() + 1] != '.') {
+            if (this.getCol() != 3) {
+                if (state[this.getRow()][this.getCol() + 1] != '%' && state[this.getRow()][this.getCol() + 1] != '.') {
                     res = true;
                 }
             }
