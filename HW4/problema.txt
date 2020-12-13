@@ -1,0 +1,10 @@
+NOMBRE DEL PROBLEMA: Laberinto
+Estados: char[]={{0,k,%,G},{0,%,%,0},{S,0,0,0}} // Array bidimensional de caracteres donde cada posicion tiene un 0 si no ha sido recorrida
+Estado inicial: hay un origen, un punto intermedio y un objetivo no hay ningun punto recorrido
+Acciones: UP, DOWN, RIGHT, LEFT
+Modelo de transición: En cada transicion la posicion recorridida se marcara con un 1(estado[i][j] = 1)
+Función objetivo: la funcion objetivo sera cuando alcancemos la meta habiendo pasado por el punto intermedio antes.
+
+Coste: si no se indica lo contrario, el coste es 1, por lo que el coste del camino será el número de pasos dados en el camino.
+Observaciones: cualquier aclaración que se quiera realizar, como por ejemplo detalles de implementación
+
