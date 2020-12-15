@@ -5,7 +5,12 @@ import aima.core.environment.laberinto.*;
 import aima.core.search.framework.SearchAgent;
 import aima.core.search.framework.SearchForActions;
 import aima.core.search.framework.problem.Problem;
+import aima.core.search.framework.qsearch.GraphSearch;
+import aima.core.search.framework.qsearch.TreeSearch;
+import aima.core.search.informed.AStarSearch;
+import aima.core.search.informed.GreedyBestFirstSearch;
 import aima.core.search.uninformed.BreadthFirstSearch;
+import aima.core.search.uninformed.DepthFirstSearch;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -15,16 +20,19 @@ public class LaberintoDemo {
     static LaberintoBoard laberintoPrueba = new LaberintoBoard();
 
     public static void main(String[] args) {
-        labBreadthDemo();
+        //labBreadthDemo();
+        //labDepthDemo();
+        LaberintoAStarDemo();
+       //LaberintoGreedyDemo();
     }
 
     private static void labBreadthDemo() {
         System.out.println("\nLaberintoDemo breadth -->");
         try {
             Problem problem = new Problem(laberintoPrueba, LaberintoFunctionFactory.getActionsFunction(),
-                    LaberintoFunctionFactory.getResultFunction(), new LaberintoGoalTest());
+                    LaberintoFunctionFactory.getResultFunction(), new LaberintoGoalWithKTest());
 
-            SearchForActions search = new BreadthFirstSearch();
+            SearchForActions search = new BreadthFirstSearch(new TreeSearch());
             SearchAgent agent = new SearchAgent(problem, search);
             printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
@@ -34,7 +42,46 @@ public class LaberintoDemo {
     }
 
     private static void labDepthDemo() {
-
+        System.out.println("\nLaberintoDemo Depth -->");
+        try {
+            Problem problem = new Problem(laberintoPrueba, LaberintoFunctionFactory.getActionsFunction(),
+                    LaberintoFunctionFactory.getResultFunction(), new LaberintoGoalWithKTest());
+            
+            SearchForActions search = new DepthFirstSearch(new GraphSearch());
+            SearchAgent agent = new SearchAgent(problem, search);
+            printActions(agent.getActions());
+            printInstrumentation(agent.getInstrumentation());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private static void LaberintoAStarDemo() {
+        System.out.println("\nLabyrinthDemo A* -->");
+        try {
+            Problem problem = new Problem(new LaberintoBoard(laberintoPrueba), LaberintoFunctionFactory.getActionsFunction(),
+                    LaberintoFunctionFactory.getResultFunction(), new LaberintoGoalWithKTest());
+            SearchForActions search = new AStarSearch(new GraphSearch(), new LaberintoManhattanHeuristic());
+            SearchAgent agent = new SearchAgent(problem, search);
+            printActions(agent.getActions());
+            printInstrumentation(agent.getInstrumentation());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private static void LaberintoGreedyDemo() {
+        System.out.println("\nLabyrinthDemo A* -->");
+        try {
+            Problem problem = new Problem(new LaberintoBoard(laberintoPrueba), LaberintoFunctionFactory.getActionsFunction(),
+                    LaberintoFunctionFactory.getResultFunction(), new LaberintoGoalWithKTest());
+            SearchForActions search = new GreedyBestFirstSearch(new GraphSearch(), new LaberintoManhattanHeuristic());
+            SearchAgent agent = new SearchAgent(problem, search);
+            printActions(agent.getActions());
+            printInstrumentation(agent.getInstrumentation());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static void printInstrumentation(Properties properties) {
