@@ -95,45 +95,64 @@ public class LaberintoBoard {
 
     }
 
+//    public boolean canMove(Action where) {
+//
+//        boolean res = false;
+//
+//        if (where.equals(UP)) {
+//            if (this.getRow() != 0) {
+//                if (state[getRow() - 1][this.getCol()] != '%' && state[this.getRow() - 1][getCol()] != '.') {
+//                    res = true;
+//                }
+//            }
+//            //res = (getRow() != 0) && (state[getRow() - 1][getCol()] != '%');
+//        } else if (where.equals(DOWN)) {
+//            if (this.getRow() != 3) {
+//                if (state[this.getRow() + 1][this.getCol()] != '%' && state[this.getRow() + 1][this.getCol()] != '.') {
+//                    res = true;
+//                }
+//            }
+//            //res = (getRow() != state.length - 1) && (state[getRow() + 1][getCol()] != '%');
+//        } else if (where.equals(LEFT)) {
+//            if (this.getCol() != 0) {
+//                if (state[this.getRow()][this.getCol() - 1] != '%' && state[this.getRow()][this.getCol() - 1] != '.') {
+//                    res = true;
+//                }
+//            }
+//            //res = (getCol() != 0) && (state[getRow()][getCol() - 1] != '%');
+//        } else if (where.equals(RIGHT)) {
+//            if (this.getCol() != 3) {
+//                if (state[this.getRow()][this.getCol() + 1] != '%' && state[this.getRow()][this.getCol() + 1] != '.') {
+//                    res = true;
+//                }
+//            }
+//
+//            //res = (getCol() != state.length-1) && (state[getRow()][getCol() + 1] != '%');
+//        }
+//
+//        return res;
+//
+//    }
+
+    // Check if we are in board edge (eg col=0) OR if there is an X where we want to go
     public boolean canMove(Action where) {
-
-        boolean res = false;
-
-        if (where.equals(UP)) {
-            if (this.getRow() != 0) {
-                if (state[getRow() - 1][this.getCol()] != '%' && state[this.getRow() - 1][getCol()] != '.') {
-                    res = true;
-                }
-            }
-            //res = (getRow() != 0) && (state[getRow() - 1][getCol()] != '%');
-        } else if (where.equals(DOWN)) {
-            if (this.getRow() != 3) {
-                if (state[this.getRow() + 1][this.getCol()] != '%' && state[this.getRow() + 1][this.getCol()] != '.') {
-                    res = true;
-                }
-            }
-            //res = (getRow() != state.length - 1) && (state[getRow() + 1][getCol()] != '%');
-        } else if (where.equals(LEFT)) {
-            if (this.getCol() != 0) {
-                if (state[this.getRow()][this.getCol() - 1] != '%' && state[this.getRow()][this.getCol() - 1] != '.') {
-                    res = true;
-                }
-            }
-            //res = (getCol() != 0) && (state[getRow()][getCol() - 1] != '%');
+        boolean retVal = true;
+        if (where.equals(LEFT)) {
+            retVal = (getCol() != 0)
+                    && (state[this.getRow()][this.getCol() - 1] != '%');
         } else if (where.equals(RIGHT)) {
-            if (this.getCol() != 3) {
-                if (state[this.getRow()][this.getCol() + 1] != '%' && state[this.getRow()][this.getCol() + 1] != '.') {
-                    res = true;
-                }
-            }
-
-            //res = (getCol() != state.length-1) && (state[getRow()][getCol() + 1] != '%');
+            retVal = (getCol() != state.length)
+                    && (state[this.getRow()][this.getCol() + 1] != '%');
+        } else if (where.equals(UP)) {
+            retVal = (getRow() != 0)
+                    && (state[this.getRow()-1][this.getCol()] != '%');
+        } else if (where.equals(DOWN)) {
+            retVal = (getRow() != state.length)
+                    && (state[this.getRow()+1][this.getCol()] != '%');
         }
-
-        return res;
-
+        return retVal;
     }
-
+    
     @Override
     public boolean equals(Object obj
     ) {
@@ -151,6 +170,14 @@ public class LaberintoBoard {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + this.row;
+        hash = 29 * hash + this.col;
+        return hash;
     }
 
     @Override
