@@ -38,20 +38,20 @@ public class LaberintoBoard {
     public LaberintoBoard(LaberintoBoard copyBoard) {
         this(copyBoard.getRow(), copyBoard.getCol());
     }
-    
-    public void printPath(){
-        
-        for(int i=0;i<state.length;i++){
-            for(int j=0;j<state[i].length;j++){
-                
+
+    public void printPath() {
+
+        for (int i = 0; i < state.length; i++) {
+            for (int j = 0; j < state[i].length; j++) {
+
                 System.out.print(state[i][j] + "|");
-                
+
             }
             System.out.print("\n");
         }
-        
+
         System.out.println("\n\n");
-        
+
     }
 
     public boolean isKPassed(int i, int j) {
@@ -60,6 +60,10 @@ public class LaberintoBoard {
         } else {
             return false;
         }
+    }
+
+    public char[][] getState() {
+        return state;
     }
 
     public int getGoalx() {
@@ -97,24 +101,24 @@ public class LaberintoBoard {
     }
 
     public void moveRight() {
-        setValueState(row, col);
         this.col++;
+        setValueState(row, col);
 
     }
 
     public void moveLeft() {
-        setValueState(row, col);
         this.col--;
+        setValueState(row, col);
     }
 
     public void moveDown() {
-        setValueState(row, col);
         this.row++;
+        setValueState(row, col);
     }
 
     public void moveUp() {
-        setValueState(row, col);
         this.row--;
+        setValueState(row, col);
     }
 
     public boolean canMove(Action where) {
@@ -122,14 +126,14 @@ public class LaberintoBoard {
         boolean res = false;
 
         if (where.equals(UP)) {
-            if (this.getRow()>0) {
+            if (this.getRow() > 0) {
                 if (state[getRow() - 1][this.getCol()] != '%') {
                     res = true;
                 }
             }
             //res = (getRow() != 0) && (state[getRow() - 1][getCol()] != '%');
         } else if (where.equals(DOWN)) {
-            if (this.getRow() < state.length-1) {
+            if (this.getRow() < state.length - 1) {
                 if (state[this.getRow() + 1][this.getCol()] != '%') {
                     res = true;
                 }
@@ -143,7 +147,7 @@ public class LaberintoBoard {
             }
             //res = (getCol() != 0) && (state[getRow()][getCol() - 1] != '%');
         } else if (where.equals(RIGHT)) {
-            if (this.getCol() < state[0].length-1) {
+            if (this.getCol() < state[0].length - 1) {
                 if (state[this.getRow()][this.getCol() + 1] != '%') {
                     res = true;
                 }
@@ -174,7 +178,7 @@ public class LaberintoBoard {
 //        }
 //        return retVal;
 //    }
-    
+
     @Override
     public boolean equals(Object obj
     ) {

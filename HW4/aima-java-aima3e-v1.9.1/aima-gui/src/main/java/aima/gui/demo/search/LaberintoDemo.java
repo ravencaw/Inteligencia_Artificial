@@ -4,6 +4,7 @@ import aima.core.agent.Action;
 import aima.core.environment.laberinto.*;
 import aima.core.search.framework.SearchAgent;
 import aima.core.search.framework.SearchForActions;
+import aima.core.search.framework.evalfunc.HeuristicFunction;
 import aima.core.search.framework.problem.Problem;
 import aima.core.search.framework.qsearch.GraphSearch;
 import aima.core.search.framework.qsearch.TreeSearch;
@@ -61,7 +62,7 @@ public class LaberintoDemo {
         try {
             Problem problem = new Problem(new LaberintoBoard(laberintoPrueba), LaberintoFunctionFactory.getActionsFunction(),
                     LaberintoFunctionFactory.getResultFunction(), new LaberintoGoalWithKTest());
-            SearchForActions search = new AStarSearch(new GraphSearch(), new LaberintoManhattanHeuristic());
+            SearchForActions search = new AStarSearch(new GraphSearch(), new LaberintoHeuristicFunction());
             SearchAgent agent = new SearchAgent(problem, search);
             printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
@@ -75,7 +76,7 @@ public class LaberintoDemo {
         try {
             Problem problem = new Problem(new LaberintoBoard(laberintoPrueba), LaberintoFunctionFactory.getActionsFunction(),
                     LaberintoFunctionFactory.getResultFunction(), new LaberintoGoalWithKTest());
-            SearchForActions search = new GreedyBestFirstSearch(new GraphSearch(), new LaberintoManhattanHeuristic());
+            SearchForActions search = new GreedyBestFirstSearch(new GraphSearch(), new LaberintoHeuristicFunction());
             SearchAgent agent = new SearchAgent(problem, search);
             printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
