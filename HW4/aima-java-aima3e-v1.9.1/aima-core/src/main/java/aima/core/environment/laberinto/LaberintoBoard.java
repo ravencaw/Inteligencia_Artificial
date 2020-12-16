@@ -2,6 +2,9 @@ package aima.core.environment.laberinto;
 
 import aima.core.agent.Action;
 import aima.core.agent.impl.DynamicAction;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class LaberintoBoard {
 
@@ -15,12 +18,14 @@ public class LaberintoBoard {
     private int goalx = 3;
     private int goaly = 3;
 
-    private static char state[][] = {
-        {'S', ' ', ' ', '%'},
-        {' ', '%', ' ', '%'},
-        {'%', 'K', ' ', '%'},
-        {'%', ' ', ' ', 'G'}
-    };
+    private static char state[][];
+
+//    private static char state[][] = {
+//        {'S', ' ', ' ', '%'},
+//        {' ', '%', ' ', '%'},
+//        {'%', 'K', ' ', '%'},
+//        {'%', ' ', ' ', 'G'}
+//    };
 
     /*
     constructor incompleto hay que asignar el punto de inicio dinamicamente
@@ -37,6 +42,42 @@ public class LaberintoBoard {
 
     public LaberintoBoard(LaberintoBoard copyBoard) {
         this(copyBoard.getRow(), copyBoard.getCol());
+    }
+
+    private void setPoints() {
+        for (int i = 0; i < state.length; i++) {
+            for (int j = 0; j < state[i].length; j++) {
+
+                if (state[i][j] == 'S') {
+                    this.row = i;
+                    this.col = j;
+                } else if (state[i][j] == 'G') {
+                    this.goalx = i;
+                    this.goaly = j;
+                }
+
+            }
+        }
+    }
+
+    private void readPath() throws FileNotFoundException {
+
+        File myFile = new File("laberinto.txt");
+        Scanner lab = new Scanner(myFile);
+        int i = 0;
+
+        while (lab.hasNextLine()) {
+            String line = lab.nextLine();
+
+            char[] row = new char[line.length()];
+            for (int j = 0; j < line.length(); j++) {
+                row[j] = line.charAt(j);
+            }
+
+            this.state[i] = row;
+            i++;
+        }
+
     }
 
     public void printPath() {
