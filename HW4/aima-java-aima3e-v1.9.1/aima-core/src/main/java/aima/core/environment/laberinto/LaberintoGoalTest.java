@@ -2,25 +2,40 @@ package aima.core.environment.laberinto;
 
 import aima.core.search.framework.problem.GoalTest;
 
-/**
- * @author Ravi Mohan
- *
- */
 public class LaberintoGoalTest implements GoalTest {
 
-    LaberintoBoard goal = new LaberintoBoard(3, 3);
-    //LaberintoBoard stop = new LaberintoBoard(2, 1);
+    //char[][] labState = new LaberintoBoard().readFile("laberinto.txt");
+    //int[] goalCoor = findGoal(labState);
 
-//    public boolean isReachKState(Object state) {
-//        LaberintoBoard board = (LaberintoBoard) state;
-//        return board.equals(goal);
-//    }
+    //LaberintoBoard goal = new LaberintoBoard(goalCoor[0], goalCoor[1], true);
+
     @Override
     public boolean isGoalState(Object state) {
+        //System.out.println("loko");
         LaberintoBoard board = (LaberintoBoard) state;
-        board.printPath();
-        
-       
+        int[] goalCoor = findGoal(board.getState());
+
+        LaberintoBoard goal = new LaberintoBoard(goalCoor[0], goalCoor[1], true);
+       // board.printPath();
+
         return board.equals(goal);
     }
+
+    public int[] findGoal(char[][] state) {
+
+        int[] xy = new int[2];
+
+        for (int i = 0; i < state.length; i++) {
+
+            for (int j = 0; j < state[i].length; j++) {
+                
+                if (state[i][j] == 'G') {
+                    xy[0] = i;
+                    xy[1] = j;
+                }
+            }
+        }
+        return xy;
+    }
+
 }

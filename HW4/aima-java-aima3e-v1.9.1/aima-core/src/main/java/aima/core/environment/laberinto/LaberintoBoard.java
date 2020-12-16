@@ -2,11 +2,14 @@ package aima.core.environment.laberinto;
 
 import aima.core.agent.Action;
 import aima.core.agent.impl.DynamicAction;
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Scanner;
 
 public class LaberintoBoard {
+
+    private static String FILENAME = "laberinto.txt";
 
     public static Action UP = new DynamicAction("up");
     public static Action DOWN = new DynamicAction("down");
@@ -15,11 +18,11 @@ public class LaberintoBoard {
 
     private int row;
     private int col;
-    private int goalx = 3;
-    private int goaly = 3;
+    private int goalx;
+    private int goaly;
+    private boolean kPassed = false;
 
-    private static char state[][];
-
+    private char state[][];
 //    private static char state[][] = {
 //        {'S', ' ', ' ', '%'},
 //        {' ', '%', ' ', '%'},
@@ -27,27 +30,27 @@ public class LaberintoBoard {
 //        {'%', ' ', ' ', 'G'}
 //    };
 
-    /*
-    constructor incompleto hay que asignar el punto de inicio dinamicamente
-     */
+   
     public LaberintoBoard() {
-        this.row = 0;
-        this.col = 0;
+        state = readFile(FILENAME);
+        setPoints();
     }
 
-    public LaberintoBoard(int r, int c) {
+    public LaberintoBoard(int r, int c, boolean k) {
+        state = readFile(FILENAME);
         this.row = r;
         this.col = c;
+        this.kPassed = k;
     }
 
     public LaberintoBoard(LaberintoBoard copyBoard) {
-        this(copyBoard.getRow(), copyBoard.getCol());
+        this(copyBoard.getRow(), copyBoard.getCol(), copyBoard.iskPassed());
     }
 
     private void setPoints() {
         for (int i = 0; i < state.length; i++) {
             for (int j = 0; j < state[i].length; j++) {
-
+                 
                 if (state[i][j] == 'S') {
                     this.row = i;
                     this.col = j;
@@ -55,28 +58,49 @@ public class LaberintoBoard {
                     this.goalx = i;
                     this.goaly = j;
                 }
-
             }
         }
     }
 
-    private void readPath() throws FileNotFoundException {
+    public static char[][] readFile(String file) {
 
-        File myFile = new File("laberinto.txt");
-        Scanner lab = new Scanner(myFile);
-        int i = 0;
+        int wid;
+        String line = null;
+        char[][] newRow = null;
 
-        while (lab.hasNextLine()) {
-            String line = lab.nextLine();
+        try{
+            String path = System.getProperty("user.dir");
+            //System.out.println(path);
+            FileReader fileReader = new FileReader(path + "\\aima-java-aima3e-v1.9.1\\aima-core\\src\\main\\java\\aima\\core\\environment\\laberinto\\"+ file);
+            
+            BufferedReader buffer = new BufferedReader(fileReader);
+            Scanner scan = new Scanner(buffer);
 
-            char[] row = new char[line.length()];
-            for (int j = 0; j < line.length(); j++) {
-                row[j] = line.charAt(j);
+            if(scan.hasNextLine()){
+                line = scan.nextLine();
+                wid = line.length();
+                newRow = new char[wid][wid];
+
+                for(int i =0; i<wid;i++){
+                    newRow[0][i] = line.charAt(i);
+                }
+
+                while(scan.hasNextLine()){
+                    
+                    for(int i = 1; i<wid;i++){
+                        line = scan.nextLine();
+                        for(int j = 0; j<wid;j++){
+                            newRow[i][j] = line.charAt(j);
+                        }
+                    }
+                }
+                scan.close();
             }
-
-            this.state[i] = row;
-            i++;
+        }catch (FileNotFoundException ex){
+            System.err.println("No se puede abrir el archivo: "+file);
         }
+        
+        return newRow;
 
     }
 
@@ -95,24 +119,16 @@ public class LaberintoBoard {
 
     }
 
-    public boolean isKPassed(int i, int j) {
-        if (state[i][j] == '.') {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean iskPassed() {
+        return kPassed;
+    }
+
+    public void setkPassed(boolean kPassed) {
+        this.kPassed = kPassed;
     }
 
     public char[][] getState() {
         return state;
-    }
-
-    public int getGoalx() {
-        return goalx;
-    }
-
-    public int getGoaly() {
-        return goaly;
     }
 
     public int getRow() {
@@ -131,35 +147,66 @@ public class LaberintoBoard {
         this.col = col;
     }
 
-    public static void setValueState(int i, int j) {
+    public int getGoalx() {
+        return goalx;
+    }
+
+    public void setGoalx(int goalx) {
+        this.goalx = goalx;
+    }
+
+    public int getGoaly() {
+        return goaly;
+    }
+
+    public void setGoaly(int goaly) {
+        this.goaly = goaly;
+    }
+
+    public void setValueState(int i, int j) {
         if (state[i][j] != '%' && state[i][j] != '.') {
             state[i][j] = '.';
         }
     }
 
-    public static char getValueState(int i, int j) {
+    public char getValueState(int i, int j) {
         return state[i][j];
     }
 
     public void moveRight() {
         this.col++;
         setValueState(row, col);
-
+        
+        if (state[row][col] == 'K') {
+            kPassed = true;
+        }
     }
 
     public void moveLeft() {
         this.col--;
         setValueState(row, col);
+
+        if (state[row][col] == 'K') {
+            kPassed = true;
+        }
     }
 
     public void moveDown() {
         this.row++;
         setValueState(row, col);
+
+        if (state[row][col] == 'K') {
+            kPassed = true;
+        }
     }
 
     public void moveUp() {
         this.row--;
         setValueState(row, col);
+
+        if (state[row][col] == 'K') {
+            kPassed = true;
+        }
     }
 
     public boolean canMove(Action where) {
@@ -200,29 +247,20 @@ public class LaberintoBoard {
         return res;
 
     }
-//
-//    // Check if we are in board edge (eg col=0) OR if there is an X where we want to go
-//    public boolean canMove(Action where) {
-//        boolean retVal = true;
-//        if (where.equals(LEFT)) {
-//            retVal = (getCol() != 0)
-//                    && (state[this.getRow()][this.getCol() - 1] != '%');
-//        } else if (where.equals(RIGHT)) {
-//            retVal = (getCol() != state.length)
-//                    && (state[this.getRow()][this.getCol() + 1] != '%');
-//        } else if (where.equals(UP)) {
-//            retVal = (getRow() != 0)
-//                    && (state[this.getRow()-1][this.getCol()] != '%');
-//        } else if (where.equals(DOWN)) {
-//            retVal = (getRow() != state.length)
-//                    && (state[this.getRow()+1][this.getCol()] != '%');
-//        }
-//        return retVal;
-//    }
 
     @Override
-    public boolean equals(Object obj
-    ) {
+    public int hashCode() {
+        int hash = 5;
+        hash = 83 * hash + this.row;
+        hash = 83 * hash + this.col;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -236,20 +274,10 @@ public class LaberintoBoard {
         if (this.col != other.col) {
             return false;
         }
+        if (this.kPassed != other.kPassed) {
+            return false;
+        }
         return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + this.row;
-        hash = 29 * hash + this.col;
-        return hash;
-    }
-
-    @Override
-    public String toString() {
-        return "LaberintoBoard{" + "row=" + row + ", col=" + col + '}';
     }
 
 }

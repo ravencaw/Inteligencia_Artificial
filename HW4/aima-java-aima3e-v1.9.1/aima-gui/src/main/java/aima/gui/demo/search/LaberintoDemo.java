@@ -21,9 +21,11 @@ public class LaberintoDemo {
     static LaberintoBoard laberintoPrueba = new LaberintoBoard();
 
     public static void main(String[] args) {
-        //labBreadthDemo();
+        
+        
+        labBreadthDemo();
         //labDepthDemo();
-        LaberintoAStarDemo();
+        //LaberintoAStarDemo();
        //LaberintoGreedyDemo();
     }
 
@@ -31,7 +33,7 @@ public class LaberintoDemo {
         System.out.println("\nLaberintoDemo breadth -->");
         try {
             Problem problem = new Problem(laberintoPrueba, LaberintoFunctionFactory.getActionsFunction(),
-                    LaberintoFunctionFactory.getResultFunction(), new LaberintoGoalWithKTest());
+                    LaberintoFunctionFactory.getResultFunction(), new LaberintoGoalTest());
 
             SearchForActions search = new BreadthFirstSearch(new TreeSearch());
             SearchAgent agent = new SearchAgent(problem, search);
@@ -46,7 +48,7 @@ public class LaberintoDemo {
         System.out.println("\nLaberintoDemo Depth -->");
         try {
             Problem problem = new Problem(laberintoPrueba, LaberintoFunctionFactory.getActionsFunction(),
-                    LaberintoFunctionFactory.getResultFunction(), new LaberintoGoalWithKTest());
+                    LaberintoFunctionFactory.getResultFunction(), new LaberintoGoalTest());
             
             SearchForActions search = new DepthFirstSearch(new GraphSearch());
             SearchAgent agent = new SearchAgent(problem, search);
@@ -61,7 +63,7 @@ public class LaberintoDemo {
         System.out.println("\nLabyrinthDemo A* -->");
         try {
             Problem problem = new Problem(new LaberintoBoard(laberintoPrueba), LaberintoFunctionFactory.getActionsFunction(),
-                    LaberintoFunctionFactory.getResultFunction(), new LaberintoGoalWithKTest());
+                    LaberintoFunctionFactory.getResultFunction(), new LaberintoGoalTest());
             SearchForActions search = new AStarSearch(new GraphSearch(), new LaberintoHeuristicFunction());
             SearchAgent agent = new SearchAgent(problem, search);
             printActions(agent.getActions());
@@ -75,7 +77,7 @@ public class LaberintoDemo {
         System.out.println("\nLabyrinthDemo A* -->");
         try {
             Problem problem = new Problem(new LaberintoBoard(laberintoPrueba), LaberintoFunctionFactory.getActionsFunction(),
-                    LaberintoFunctionFactory.getResultFunction(), new LaberintoGoalWithKTest());
+                    LaberintoFunctionFactory.getResultFunction(), new LaberintoGoalTest());
             SearchForActions search = new GreedyBestFirstSearch(new GraphSearch(), new LaberintoHeuristicFunction());
             SearchAgent agent = new SearchAgent(problem, search);
             printActions(agent.getActions());
