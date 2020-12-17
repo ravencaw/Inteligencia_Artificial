@@ -24,9 +24,9 @@ public class LaberintoDemo {
         
         
         labBreadthDemo();
-        //labDepthDemo();
-        //LaberintoAStarDemo();
-       //LaberintoGreedyDemo();
+        labDepthDemo();
+        LaberintoAStarDemo();
+        LaberintoGreedyDemo();
     }
 
     private static void labBreadthDemo() {
@@ -39,6 +39,7 @@ public class LaberintoDemo {
             SearchAgent agent = new SearchAgent(problem, search);
             printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
+            //laberintoPrueba.printPath();
         } catch (Exception e) {
             e.printStackTrace();
         }

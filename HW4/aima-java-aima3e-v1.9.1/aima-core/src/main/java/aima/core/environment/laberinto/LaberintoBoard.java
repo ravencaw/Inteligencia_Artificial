@@ -175,38 +175,40 @@ public class LaberintoBoard {
 
     public void moveRight() {
         this.col++;
-        setValueState(row, col);
         
         if (state[row][col] == 'K') {
             kPassed = true;
         }
+        setValueState(row, col);
     }
 
     public void moveLeft() {
         this.col--;
-        setValueState(row, col);
+       
 
         if (state[row][col] == 'K') {
             kPassed = true;
         }
+         setValueState(row, col);
     }
 
     public void moveDown() {
         this.row++;
-        setValueState(row, col);
-
+        
         if (state[row][col] == 'K') {
             kPassed = true;
         }
+         setValueState(row, col);
     }
 
     public void moveUp() {
         this.row--;
-        setValueState(row, col);
+        
 
         if (state[row][col] == 'K') {
             kPassed = true;
         }
+        setValueState(row, col);
     }
 
     public boolean canMove(Action where) {
