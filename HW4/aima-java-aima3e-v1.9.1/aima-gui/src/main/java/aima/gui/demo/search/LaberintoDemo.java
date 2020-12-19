@@ -39,6 +39,9 @@ public class LaberintoDemo {
             SearchAgent agent = new SearchAgent(problem, search);
             printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
+            ArrayList<Action> actions = (ArrayList<Action>) agent.getActions();
+            boardInicial = printPointLab(actions);
+            printSolLabyrinth();
             //laberintoPrueba.printPath();
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,6 +58,9 @@ public class LaberintoDemo {
             SearchAgent agent = new SearchAgent(problem, search);
             printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
+            ArrayList<Action> actions = (ArrayList<Action>) agent.getActions();
+            boardInicial = printPointLab(actions);
+            printSolLabyrinth();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,13 +75,16 @@ public class LaberintoDemo {
             SearchAgent agent = new SearchAgent(problem, search);
             printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
+            ArrayList<Action> actions = (ArrayList<Action>) agent.getActions();
+            boardInicial = printPointLab(actions);
+            printSolLabyrinth();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     
     private static void LaberintoGreedyDemo() {
-        System.out.println("\nLabyrinthDemo A* -->");
+        System.out.println("\nLabyrinthDemo Greedy -->");
         try {
             Problem problem = new Problem(new LaberintoBoard(laberintoPrueba), LaberintoFunctionFactory.getActionsFunction(),
                     LaberintoFunctionFactory.getResultFunction(), new LaberintoGoalTest());
@@ -83,6 +92,9 @@ public class LaberintoDemo {
             SearchAgent agent = new SearchAgent(problem, search);
             printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
+            ArrayList<Action> actions = (ArrayList<Action>) agent.getActions();
+            boardInicial = printPointLab(actions);
+            printSolLabyrinth();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -102,6 +114,41 @@ public class LaberintoDemo {
         for (int i = 0; i < actions.size(); i++) {
             String action = actions.get(i).toString();
             System.out.println(action);
+        }
+    }
+    
+    public static LabyrinthBoard printPointLab(List<Action> actions){
+        for(int i =0; i<actions.size();i++){
+            if(actions.get(i).toString().equals("Action[name==Up]")){
+                labyrinth[boardInicial.getRow()-1][boardInicial.getColum()] = '.';
+                boardInicial.setRow(boardInicial.getRow()-1);
+            }else if(actions.get(i).toString().equals("Action[name==Down]")){
+                labyrinth[boardInicial.getRow()+1][boardInicial.getColum()] = '.';
+                boardInicial.setRow(boardInicial.getRow()+1);
+            }else if(actions.get(i).toString().equals("Action[name==Left]")){
+                labyrinth[boardInicial.getRow()][boardInicial.getColum()-1] = '.';
+                boardInicial.setColum(boardInicial.getColum()-1);
+            }else{
+                labyrinth[boardInicial.getRow()][boardInicial.getColum()+1] = '.';
+                boardInicial.setColum(boardInicial.getColum()+1);
+            }
+        }
+        row = boardInicial.getRow();
+        colum = boardInicial.getColum();
+
+        return boardInicial;
+    }
+    
+    public static void printSolLabyrinth(){
+        System.out.println();
+
+        for(int i = 0; i < labyrinth.length; i++)
+        {
+            for(int j = 0; j < labyrinth[i].length; j++)
+            {
+                System.out.printf("|%c|\t", labyrinth[i][j]);
+            }
+            System.out.println();
         }
     }
 }
