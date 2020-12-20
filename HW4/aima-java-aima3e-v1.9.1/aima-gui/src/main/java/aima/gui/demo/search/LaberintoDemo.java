@@ -12,6 +12,7 @@ import aima.core.search.informed.AStarSearch;
 import aima.core.search.informed.GreedyBestFirstSearch;
 import aima.core.search.uninformed.BreadthFirstSearch;
 import aima.core.search.uninformed.DepthFirstSearch;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -122,22 +123,22 @@ public class LaberintoDemo {
     
     public static LaberintoBoard printPath(List<Action> actions){
         for(int i =0; i<actions.size();i++){
-            if(actions.get(i).toString().equals("Action[name==Up]")){
-                path[laberintoPrueba.getRow()-1][laberintoPrueba.getColum()] = '.';
+            if(actions.get(i).toString().equals("Action[name==up]")){
+                path[laberintoPrueba.getRow()-1][laberintoPrueba.getCol()] = '.';
                 laberintoPrueba.setRow(laberintoPrueba.getRow()-1);
-            }else if(actions.get(i).toString().equals("Action[name==Down]")){
-                path[laberintoPrueba.getRow()+1][laberintoPrueba.getColum()] = '.';
+            }else if(actions.get(i).toString().equals("Action[name==down]")){
+                path[laberintoPrueba.getRow()+1][laberintoPrueba.getCol()] = '.';
                 laberintoPrueba.setRow(laberintoPrueba.getRow()+1);
-            }else if(actions.get(i).toString().equals("Action[name==Left]")){
-                path[laberintoPrueba.getRow()][laberintoPrueba.getColum()-1] = '.';
-                laberintoPrueba.setColum(laberintoPrueba.getColum()-1);
+            }else if(actions.get(i).toString().equals("Action[name==left]")){
+                path[laberintoPrueba.getRow()][laberintoPrueba.getCol()-1] = '.';
+                laberintoPrueba.setCol(laberintoPrueba.getCol()-1);
             }else{
-                path[laberintoPrueba.getRow()][laberintoPrueba.getColum()+1] = '.';
-                laberintoPrueba.setColum(laberintoPrueba.getColum()+1);
+                path[laberintoPrueba.getRow()][laberintoPrueba.getCol()+1] = '.';
+                laberintoPrueba.setCol(laberintoPrueba.getCol()+1);
             }
         }
         row = laberintoPrueba.getRow();
-        col = laberintoPrueba.getColum();
+        col = laberintoPrueba.getCol();
 
         return laberintoPrueba;
     }
