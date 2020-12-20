@@ -19,6 +19,9 @@ import java.util.Properties;
 public class LaberintoDemo {
 
     static LaberintoBoard laberintoPrueba = new LaberintoBoard();
+    public static int row;
+    public static int col;
+    private static char[][] path = laberintoPrueba.getState();
 
     public static void main(String[] args) {
         
@@ -40,8 +43,8 @@ public class LaberintoDemo {
             printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
             ArrayList<Action> actions = (ArrayList<Action>) agent.getActions();
-            boardInicial = printPointLab(actions);
-            printSolLabyrinth();
+            laberintoPrueba = printPath(actions);
+            printSolution();
             //laberintoPrueba.printPath();
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,8 +62,8 @@ public class LaberintoDemo {
             printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
             ArrayList<Action> actions = (ArrayList<Action>) agent.getActions();
-            boardInicial = printPointLab(actions);
-            printSolLabyrinth();
+            laberintoPrueba = printPath(actions);
+            printSolution();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -76,8 +79,8 @@ public class LaberintoDemo {
             printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
             ArrayList<Action> actions = (ArrayList<Action>) agent.getActions();
-            boardInicial = printPointLab(actions);
-            printSolLabyrinth();
+            laberintoPrueba = printPath(actions);
+            printSolution();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,8 +96,8 @@ public class LaberintoDemo {
             printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
             ArrayList<Action> actions = (ArrayList<Action>) agent.getActions();
-            boardInicial = printPointLab(actions);
-            printSolLabyrinth();
+            laberintoPrueba = printPath(actions);
+            printSolution();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -117,38 +120,40 @@ public class LaberintoDemo {
         }
     }
     
-    public static LabyrinthBoard printPointLab(List<Action> actions){
+    public static LaberintoBoard printPath(List<Action> actions){
         for(int i =0; i<actions.size();i++){
             if(actions.get(i).toString().equals("Action[name==Up]")){
-                labyrinth[boardInicial.getRow()-1][boardInicial.getColum()] = '.';
-                boardInicial.setRow(boardInicial.getRow()-1);
+                path[laberintoPrueba.getRow()-1][laberintoPrueba.getColum()] = '.';
+                laberintoPrueba.setRow(laberintoPrueba.getRow()-1);
             }else if(actions.get(i).toString().equals("Action[name==Down]")){
-                labyrinth[boardInicial.getRow()+1][boardInicial.getColum()] = '.';
-                boardInicial.setRow(boardInicial.getRow()+1);
+                path[laberintoPrueba.getRow()+1][laberintoPrueba.getColum()] = '.';
+                laberintoPrueba.setRow(laberintoPrueba.getRow()+1);
             }else if(actions.get(i).toString().equals("Action[name==Left]")){
-                labyrinth[boardInicial.getRow()][boardInicial.getColum()-1] = '.';
-                boardInicial.setColum(boardInicial.getColum()-1);
+                path[laberintoPrueba.getRow()][laberintoPrueba.getColum()-1] = '.';
+                laberintoPrueba.setColum(laberintoPrueba.getColum()-1);
             }else{
-                labyrinth[boardInicial.getRow()][boardInicial.getColum()+1] = '.';
-                boardInicial.setColum(boardInicial.getColum()+1);
+                path[laberintoPrueba.getRow()][laberintoPrueba.getColum()+1] = '.';
+                laberintoPrueba.setColum(laberintoPrueba.getColum()+1);
             }
         }
-        row = boardInicial.getRow();
-        colum = boardInicial.getColum();
+        row = laberintoPrueba.getRow();
+        col = laberintoPrueba.getColum();
 
-        return boardInicial;
+        return laberintoPrueba;
     }
     
-    public static void printSolLabyrinth(){
-        System.out.println();
+    public static void printSolution(){
+        System.out.print("\n");
 
-        for(int i = 0; i < labyrinth.length; i++)
+        for(int i = 0; i < path.length; i++)
         {
-            for(int j = 0; j < labyrinth[i].length; j++)
+            for(int j = 0; j < path[i].length; j++)
             {
-                System.out.printf("|%c|\t", labyrinth[i][j]);
+                System.out.printf("|%c|\t", path[i][j]);
             }
-            System.out.println();
+            System.out.print("\n");
         }
     }
+
+
 }
